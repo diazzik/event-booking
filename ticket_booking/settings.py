@@ -36,8 +36,6 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,14 +81,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ticket_booking.wsgi.application'
 
+DATABASE_URL = "postgresql://event_booking_db_i94n_user:Ggv5wryskYAxTNhV0R9jVXvdXialLrIQ@dpg-d8mr8bflk1mc7391r8bg-a.oregon-postgres.render.com/event_booking_db_i94n"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL")
-    )
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(DATABASE_URL)
+    }
+else:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ticket_booking_db',
+        'USER': 'postgres',
+        'PASSWORD': '3590',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # DATABASES = {
@@ -139,8 +150,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
