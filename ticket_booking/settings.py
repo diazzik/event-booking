@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,13 +27,15 @@ SECRET_KEY = 'django-insecure-)6%spp^%8*p2mlzdgh$bxexp#_1gsbkx9aw8=%957*a^ulj0k6
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "kazarinov.pythonanywhere.com"
+    ".onrender.com",
 ]
 
 AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Application definition
 
