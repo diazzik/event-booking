@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Настройки
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h4>Админ панель</h4>
+        
+        <a href="{% url 'admin_dashboard' %}">
+            <i class="bi bi-speedometer2"></i> Главная
+        </a>
+        
+        <a href="{% url 'admin_events' %}">
+            <i class="bi bi-calendar-event"></i> Мероприятия
+        </a>
+        
+        <a href="{% url 'admin_orders' %}">
+            <i class="bi bi-cart"></i> Заказы
+        </a>
+        
+        <a href="{% url 'admin_users' %}">
+            <i class="bi bi-people"></i> Пользователи
+        </a>
+        
+        <a href="{% url 'admin_categories' %}">
+            <i class="bi bi-tags"></i> Категории
+        </a>
+        
+        <a href="{% url 'admin_settings' %}" class="active">
+            <i class="bi bi-gear"></i> Настройки
+        </a>
+        
+        <hr>
+        
+        <form method="post" action="{% url 'logout' %}" style="display: block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="bi bi-box-arrow-right"></i> Выход
+            </button>
+        </form>
+    </div>
+    
+    <div class="content-area">
+        <h2>Настройки системы</h2>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4><i class="bi bi-globe"></i> Основные настройки</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="site_name" class="form-label">Название сайта</label>
+                        <input type="text" class="form-control" id="site_name" name="site_name" value="{{ settings.site_name|default:'EventHub' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="site_description" class="form-label">Описание сайта</label>
+                        <textarea class="form-control" id="site_description" name="site_description" rows="3">{{ settings.site_description|default:'Сервис бронирования билетов на мероприятия' }}</textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4><i class="bi bi-envelope"></i> Контактная информация</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="contact_email" class="form-label">Email для связи</label>
+                        <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ settings.contact_email|default:'info@eventhub.ru' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact_phone" class="form-label">Телефон</label>
+                        <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ settings.contact_phone|default:'+7 (XXX) XXX-XX-XX' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Адрес</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ settings.address|default:'г. Москва, ул. Примерная, д. 1' }}">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4><i class="bi bi-currency-dollar"></i> Настройки платежей</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="currency" class="form-label">Валюта</label>
+                        <select class="form-control" id="currency" name="currency">
+                            <option value="RUB" {% if settings.currency == 'RUB' %}selected{% endif %}>Рубль (RUB)</option>
+                            <option value="USD" {% if settings.currency == 'USD' %}selected{% endif %}>Доллар (USD)</option>
+                            <option value="EUR" {% if settings.currency == 'EUR' %}selected{% endif %}>Евро (EUR)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i> Сохранить настройки
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

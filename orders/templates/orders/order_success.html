@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Успешно
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center py-5">
+
+<h1 class="text-success">
+
+✅ Бронирование выполнено
+
+</h1>
+
+<p>
+
+Ваш заказ успешно оформлен.
+
+</p>
+
+<a href="{% url 'my_orders' %}"
+   class="btn btn-primary">
+
+    Перейти к заказам
+
+</a>
+
+</div>
+
+{% endblock %}

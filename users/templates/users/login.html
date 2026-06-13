@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вход | EventHub{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Добро пожаловать</h2>
+            <p>Войдите в свой аккаунт</p>
+        </div>
+        
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username">Имя пользователя</label>
+                <input type="text" 
+                       name="username" 
+                       id="id_username" 
+                       class="form-control" 
+                       placeholder="Введите имя пользователя"
+                       autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password">Пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" 
+                           name="password" 
+                           id="id_password" 
+                           class="form-control password-input" 
+                           placeholder="Введите пароль">
+                    <button type="button" class="toggle-password" data-target="id_password">
+                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                Неправильное имя пользователя или пароль
+            </div>
+            {% endif %}
+            
+            <button type="submit" class="btn-auth btn-primary">
+                Войти
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Нет аккаунта? <a href="{% url 'register' %}" class="auth-link">Зарегистрироваться</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .auth-container {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    
+    .auth-card {
+        max-width: 420px;
+        width: 100%;
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-header p {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .auth-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+        font-size: 0.9rem;
+    }
+    
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .password-input {
+        width: 100%;
+        padding: 10px 40px 10px 12px !important;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+    }
+    
+    .password-input:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        transition: color 0.2s ease;
+    }
+    
+    .toggle-password:hover {
+        color: #2563eb;
+    }
+    
+    .eye-icon {
+        pointer-events: none;
+    }
+    
+    .btn-auth {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-primary {
+        background: #2563eb;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+    
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eef2f6;
+    }
+    
+    .auth-footer p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .auth-link {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+    
+    .auth-link:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+    }
+    
+    .alert {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .alert-danger {
+        background: #fee2e2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButtons = document.querySelectorAll('.toggle-password');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const svg = this.querySelector('.eye-icon');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    svg.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                } else {
+                    input.type = 'password';
+                    svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

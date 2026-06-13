@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Настройки
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h4>Личный кабинет</h4>
+        
+        <a href="{% url 'profile' %}">
+            <i class="bi bi-person"></i> Профиль
+        </a>
+        
+        <a href="{% url 'my_orders' %}">
+            <i class="bi bi-cart"></i> Мои заказы
+        </a>
+        
+        <a href="{% url 'favorites' %}">
+            <i class="bi bi-heart"></i> Избранное
+        </a>
+        
+        <a href="{% url 'settings' %}" class="active">
+            <i class="bi bi-gear"></i> Настройки
+        </a>
+        
+        <hr>
+        
+        <form method="post" action="{% url 'logout' %}" style="display: block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="bi bi-box-arrow-right"></i> Выход
+            </button>
+        </form>
+    </div>
+    
+    <div class="content-area">
+        <h2>Настройки аккаунта</h2>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab">
+                    <i class="bi bi-lock"></i> Пароль
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab">
+                    <i class="bi bi-bell"></i> Уведомления
+                </button>
+            </li>
+        </ul>
+        
+        <div class="tab-content">
+            <!-- Вкладка смены пароля -->
+            <div class="tab-pane fade" id="password" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Смена пароля</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ password_form.as_p }}
+                            <button type="submit" name="change_password" class="btn btn-warning">
+                                <i class="bi bi-key"></i> Сменить пароль
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Вкладка уведомлений -->
+            <div class="tab-pane fade" id="notifications" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Настройки уведомлений</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> Функция уведомлений в разработке
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="email_notify">
+                            <label class="form-check-label" for="email_notify">
+                                Получать уведомления на email
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="order_notify">
+                            <label class="form-check-label" for="order_notify">
+                                Уведомления о статусе заказа
+                            </label>
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="alert('Функция в разработке')">
+                            Сохранить настройки
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

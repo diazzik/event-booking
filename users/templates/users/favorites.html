@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Избранное
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h4>Личный кабинет</h4>
+        
+        <a href="{% url 'profile' %}">
+            <i class="bi bi-person"></i> Профиль
+        </a>
+        
+        <a href="{% url 'my_orders' %}">
+            <i class="bi bi-cart"></i> Мои заказы
+        </a>
+        
+        <a href="{% url 'favorites' %}" class="active">
+            <i class="bi bi-heart"></i> Избранное
+        </a>
+        
+        <a href="{% url 'settings' %}">
+            <i class="bi bi-gear"></i> Настройки
+        </a>
+        
+        <hr>
+        
+        <form method="post" action="{% url 'logout' %}" style="display: block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="bi bi-box-arrow-right"></i> Выход
+            </button>
+        </form>
+    </div>
+    
+    <div class="content-area">
+        <h2>Избранные мероприятия</h2>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% if favorites %}
+            <div class="row">
+                {% for event in favorites %}
+                <div class="col-md-6 mb-4">
+                    <div class="card event-card">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                {% if event.image %}
+                                    <img src="{{ event.image.url }}" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 100%;">
+                                        <i class="bi bi-calendar-event text-white" style="font-size: 48px;"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ event.title }}</h5>
+                                    <p class="card-text text-muted">
+                                        <i class="bi bi-geo-alt"></i> {{ event.location }}
+                                    </p>
+                                    <p class="card-text text-muted">
+                                        <i class="bi bi-calendar"></i> {{ event.event_date|date:"d.m.Y H:i" }}
+                                    </p>
+                                    <p class="card-text fw-bold text-primary">
+                                        {{ event.price }} ₽
+                                    </p>
+                                    <div class="btn-group">
+                                        <a href="{% url 'event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                            Подробнее
+                                        </a>
+                                        <a href="{% url 'remove_from_favorites' event.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Удалить из избранного?')">
+                                            <i class="bi bi-heart-broken"></i> Удалить
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                <i class="bi bi-heart"></i> У вас пока нет избранных мероприятий
+                <br>
+                <a href="{% url 'event_list' %}" class="btn btn-primary mt-3">Перейти к мероприятиям</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

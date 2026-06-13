@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Мои заказы | EventHub{% endblock %}
+
+{% block content %}
+<div class="orders-container">
+    <div class="page-header">
+        <h1>Мои заказы</h1>
+        <p>История ваших бронирований</p>
+    </div>
+    
+    {% if orders %}
+        <div class="stats-cards">
+            <div class="stat-card">
+                <span class="stat-value">{{ orders|length }}</span>
+                <span class="stat-label">Всего заказов</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">
+                    {{ total_spent }} ₽
+                </span>
+                <span class="stat-label">Потрачено всего</span>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Мероприятие</th>
+                        <th>Билеты</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                        <th>Дата заказа</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td class="order-id">#{{ order.id }}</td>
+                        <td class="event-title">{{ order.event.title }}</td>
+                        <td class="tickets-count">{{ order.ticket_count }} шт.</td>
+                        <td class="price">{{ order.total_price|floatformat:0 }} ₽</td>
+                        <td>
+                            <span class="status-badge status-{{ order.status }}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="order-date">{{ order.created_at|date:"d.m.Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+                <path d="M4 6v12c0 1.1.9 2 2 2h14v-6"></path>
+                <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path>
+            </svg>
+            <p>У вас пока нет заказов</p>
+            <a href="{% url 'event_list' %}" class="btn-browse">Посмотреть мероприятия</a>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    .orders-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .page-header {
+        margin-bottom: 2rem;
+    }
+    
+    .page-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.25rem;
+    }
+    
+    .page-header p {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .stats-cards {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        flex: 1;
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .stat-value {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2563eb;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    .data-table {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        border-collapse: collapse;
+    }
+    
+    .data-table th {
+        text-align: left;
+        padding: 1rem;
+        background: #f8fafc;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+    
+    .data-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #f0f2f5;
+        font-size: 0.9rem;
+    }
+    
+    .data-table tr:hover {
+        background: #fafbff;
+    }
+    
+    .order-id {
+        font-weight: 600;
+        color: #2563eb;
+    }
+    
+    .event-title {
+        font-weight: 500;
+        color: #1a1a1a;
+    }
+    
+    .tickets-count {
+        color: #4a5568;
+    }
+    
+    .price {
+        font-weight: 600;
+        color: #10b981;
+    }
+    
+    .order-date {
+        color: #6c757d;
+        font-size: 0.85rem;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    
+    .status-paid {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .status-cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 4rem;
+        background: white;
+        border-radius: 16px;
+    }
+    
+    .empty-state svg {
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-state p {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-browse {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+        .orders-container {
+            padding: 1rem;
+        }
+        
+        .stats-cards {
+            flex-direction: column;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+{% endblock %}

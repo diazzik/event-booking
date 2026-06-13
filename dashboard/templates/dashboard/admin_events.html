@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Управление мероприятиями
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+
+Мероприятия
+
+</h2>
+
+<a href="{% url 'create_event' %}"
+   class="btn btn-success mb-3">
+
+    Добавить мероприятие
+
+</a>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>ID</th>
+<th>Название</th>
+<th>Дата</th>
+<th>Цена</th>
+<th>Действия</th>
+
+</tr>
+
+{% for event in events %}
+
+<tr>
+
+<td>{{ event.id }}</td>
+<td>{{ event.title }}</td>
+<td>{{ event.event_date }}</td>
+<td>{{ event.price }}</td>
+
+<td>
+
+<a href="{% url 'update_event' event.id %}"
+   class="btn btn-primary btn-sm">
+
+    Изменить
+
+</a>
+
+<a href="{% url 'delete_event' event.id %}"
+   class="btn btn-danger btn-sm">
+
+    Удалить
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

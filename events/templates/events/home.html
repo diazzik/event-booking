@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Главная
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero секция -->
+<div class="hero-section bg-primary text-white rounded-4 p-5 mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold mb-3">
+                Добро пожаловать в EventHub
+            </h1>
+            <p class="lead mb-4">
+                Ваш надежный сервис для поиска и бронирования билетов на лучшие мероприятия города.
+                Концерты, театры, фестивали и выставки - всё в одном месте.
+            </p>
+            <a href="{% url 'event_list' %}" class="btn btn-light btn-lg fw-bold text-primary">
+                Смотреть мероприятия <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <i class="bi bi-ticket-perforated" style="font-size: 120px;"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Популярные мероприятия -->
+<div class="popular-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">
+            Популярные мероприятия
+        </h2>
+        <a href="{% url 'event_list' %}" class="text-primary text-decoration-none fw-bold">
+            Все мероприятия <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="row">
+        {% for event in events %}
+        <div class="col-md-4 mb-4">
+            <div class="card event-card">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p>{{ event.location }}</p>
+                    <p>{{ event.event_date|date:"d.m.Y H:i" }}</p>
+                    <p>{{ event.price }} ₽</p>
+                    <a href="{% url 'event_detail' event.id %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <p>Мероприятия пока не добавлены</p>
+                {% if user.is_staff %}
+                <a href="{% url 'create_event' %}" class="btn btn-success">Добавить мероприятие</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

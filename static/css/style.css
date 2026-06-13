@@ -1,0 +1,334 @@
+body {
+    background: #f5f7fa;
+}
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.hero p {
+    color: #777;
+}
+
+.event-card {
+    transition: 0.3s;
+    border: none;
+    box-shadow: 0 2px 15px rgba(0,0,0,.1);
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+}
+
+.auth-box {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+.table {
+    background: white;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: 700;
+}
+
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.btn {
+    padding: 8px 18px;
+}
+
+.btn-primary {
+    background: #2563eb;
+    border: none;
+}
+
+.btn-success {
+    border: none;
+}
+
+.btn-danger {
+    border: none;
+}
+
+.custom-navbar{
+    background:#ffffff;
+    border-bottom:1px solid #e9ecef;
+    padding:15px 0;
+}
+
+.brand-logo{
+    color:#2563eb !important;
+    font-size:28px;
+    font-weight:700;
+}
+
+.nav-link{
+    font-weight:500;
+    color:#333 !important;
+}
+
+.nav-link:hover{
+    color:#083698 !important;
+}
+/* #2563eb */
+.register-btn{
+    background:#2563eb;
+    border:none;
+}
+
+.register-btn:hover{
+    background:#083698;
+}
+
+.dashboard-container{
+    display:flex;
+    min-height:80vh;
+}
+
+.sidebar{
+    width:260px;
+    background:#fff;
+    border-right:1px solid #e9ecef;
+    padding:30px 20px;
+}
+
+.sidebar h4{
+    margin-bottom:25px;
+}
+
+.sidebar a{
+    display:block;
+    padding:12px;
+    margin-bottom:8px;
+    text-decoration:none;
+    color:#333;
+    border-radius:8px;
+}
+
+.sidebar a:hover{
+    background:#f1f5f9;
+    color:#2196f3;
+}
+
+.content-area{
+    flex:1;
+    padding:40px;
+}
+
+/* Hero секция */
+.hero-section {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.hero-section .bi-ticket-perforated {
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+/* Карточки мероприятий */
+.event-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.event-card .card-img-top {
+    object-fit: cover;
+}
+
+/* Ссылка "Все мероприятия" */
+.text-primary {
+    transition: opacity 0.3s ease;
+}
+
+.text-primary:hover {
+    opacity: 0.8;
+}
+
+/* Иконки в карточках */
+.event-card .bi {
+    margin-right: 4px;
+}
+
+/* Кнопка поиска */
+.input-group .btn-primary {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.input-group .btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+/* Стили для админ панели */
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 200px);
+    gap: 20px;
+}
+
+.sidebar {
+    width: 280px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar h4 {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+    color: #2563eb;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.sidebar a:hover {
+    background: #f1f5f9;
+    color: #2563eb;
+    transform: translateX(5px);
+}
+
+.sidebar a.active {
+    background: #2563eb;
+    color: white;
+}
+
+.sidebar hr {
+    margin: 15px 0;
+}
+
+.content-area {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.content-area h2 {
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Карточки на дашборде */
+.content-area .card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.content-area .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        position: static;
+    }
+    
+    .sidebar a {
+        display: inline-block;
+        margin-right: 10px;
+    }
+}
+
+/* Стили для аватара */
+.rounded-circle {
+    border: 3px solid #2563eb;
+    padding: 3px;
+}
+
+/* Активные ссылки в сайдбаре */
+.sidebar a.active {
+    background: #2563eb;
+    color: white;
+}
+
+/* Карточки заказов */
+.badge {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Табы настроек */
+.nav-tabs .nav-link {
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+}
+
+.nav-tabs .nav-link.active {
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+}
+

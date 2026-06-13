@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Управление заказами | Админ панель{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="page-header">
+        <h1>Заказы</h1>
+        <p>Управление заказами пользователей</p>
+    </div>
+    
+    <div class="stats-row">
+        <div class="stat-box">
+            <span class="stat-num">{{ orders|length }}</span>
+            <span class="stat-text">Всего заказов</span>
+        </div>
+    </div>
+    
+    <div class="table-card">
+        <div class="table-header">
+            <span class="table-title">Список заказов</span>
+        </div>
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Пользователь</th>
+                        <th>Мероприятие</th>
+                        <th>Билеты</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                        <th>Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td class="col-id">#{{ order.id }}</td>
+                        <td class="col-user">{{ order.user.username }}</td>
+                        <td class="col-event">{{ order.event.title }}</td>
+                        <td class="col-tickets">{{ order.ticket_count }}</td>
+                        <td class="col-price">{{ order.total_price|floatformat:0 }} ₽</td>
+                        <td class="col-status">
+                            <span class="status status-{{ order.status }}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="col-date">{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="empty-row">Заказов пока нет</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .page-header {
+        margin-bottom: 2rem;
+    }
+    
+    .page-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.25rem;
+    }
+    
+    .page-header p {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .stats-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-box {
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .stat-num {
+        display: block;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #2563eb;
+    }
+    
+    .stat-text {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    
+    .table-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .table-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #eef2f6;
+    }
+    
+    .table-title {
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .admin-table th {
+        text-align: left;
+        padding: 1rem;
+        background: #f8fafc;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+    
+    .admin-table td {
+        padding: 0.875rem 1rem;
+        border-bottom: 1px solid #f0f2f5;
+        font-size: 0.9rem;
+    }
+    
+    .admin-table tr:hover {
+        background: #fafbff;
+    }
+    
+    .col-id {
+        font-weight: 600;
+        color: #2563eb;
+        width: 60px;
+    }
+    
+    .col-user {
+        font-weight: 500;
+        color: #1a1a1a;
+    }
+    
+    .col-event {
+        color: #4a5568;
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .col-tickets {
+        text-align: center;
+        color: #4a5568;
+    }
+    
+    .col-price {
+        font-weight: 600;
+        color: #10b981;
+    }
+    
+    .col-date {
+        color: #6c757d;
+        font-size: 0.85rem;
+    }
+    
+    .status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    
+    .status-paid {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .status-cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    .empty-row {
+        text-align: center;
+        padding: 3rem !important;
+        color: #6c757d;
+    }
+    
+    @media (max-width: 768px) {
+        .admin-container {
+            padding: 1rem;
+        }
+        
+        .stats-row {
+            flex-direction: column;
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            padding: 0.75rem;
+            font-size: 0.85rem;
+        }
+        
+        .col-event {
+            max-width: 150px;
+        }
+    }
+</style>
+{% endblock %}
